@@ -5,7 +5,7 @@ include(cmake/prelude.cmake)
 project(
     cimppy
     VERSION 0.1.0
-    DESCRIPTION "C++ implemenation of simpy."
+    DESCRIPTION "C++ implementation of simpy."
     HOMEPAGE_URL "https://git.adrianguillot.com/adriang/cimppy"
     LANGUAGES CXX
 )
