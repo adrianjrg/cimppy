@@ -5,9 +5,9 @@
 #include <fmt/core.h>
 
 exported_class::exported_class()
-    : m_name {fmt::format("{}", "cimppy")}
-{
-}
+    : m_name {fmt::format("{}", "cimppy")} = default
+// {
+// }
 
 auto exported_class::name() const -> const char*
 {

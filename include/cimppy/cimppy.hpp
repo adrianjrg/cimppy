@@ -62,6 +62,7 @@ public:
   /**
    * @brief Returns a non-owning pointer to the string stored in this class
    */
+  [[nodiscard]]
   auto name() const -> const char*;
 
 private:

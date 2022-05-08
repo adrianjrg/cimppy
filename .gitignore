@@ -4,9 +4,13 @@
 build/
 cmake/open-cpp-coverage.cmake
 cmake-build-*/
-conan/
 prefix/
 CMakeLists.txt.user
 CMakeUserPresets.json
+
+# Conan generated files
+conan/
 conanbuildinfo.txt
 conaninfo.txt
+conan.lock
+graph_info.json
