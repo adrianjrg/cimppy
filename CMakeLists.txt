@@ -15,9 +15,10 @@ include(cmake/variables.cmake)
 
 # ---- Declare library ----
 
-add_library(
-    cimppy_cimppy
+add_library(cimppy_cimppy
     source/cimppy.cpp
+    source/events.cpp
+    source/simulation.cpp
 )
 add_library(cimppy::cimppy ALIAS cimppy_cimppy)
 
@@ -30,7 +31,7 @@ generate_export_header(
 )
 
 if(NOT BUILD_SHARED_LIBS)
-  target_compile_definitions(cimppy_cimppy PUBLIC CIMPPY_STATIC_DEFINE)
+    target_compile_definitions(cimppy_cimppy PUBLIC CIMPPY_STATIC_DEFINE)
 endif()
 
 set_target_properties(
@@ -63,18 +64,18 @@ target_link_libraries(cimppy_cimppy PRIVATE fmt::fmt)
 # ---- Install rules ----
 
 if(NOT CMAKE_SKIP_INSTALL_RULES)
-  include(cmake/install-rules.cmake)
+    include(cmake/install-rules.cmake)
 endif()
 
 # ---- Developer mode ----
 
 if(NOT cimppy_DEVELOPER_MODE)
-  return()
+    return()
 elseif(NOT PROJECT_IS_TOP_LEVEL)
-  message(
-      AUTHOR_WARNING
-      "Developer mode is intended for developers of cimppy"
-  )
+    message(
+        AUTHOR_WARNING
+        "Developer mode is intended for developers of cimppy"
+    )
 endif()
 
 include(cmake/dev-mode.cmake)

@@ -8,8 +8,8 @@ include(../cmake/folders.cmake)
 # ---- Dependencies ----
 
 if(PROJECT_IS_TOP_LEVEL)
-  find_package(cimppy REQUIRED)
-  enable_testing()
+    find_package(cimppy REQUIRED)
+    enable_testing()
 endif()
 
 find_package(Catch2 REQUIRED)
@@ -17,7 +17,10 @@ include(Catch)
 
 # ---- Tests ----
 
-add_executable(cimppy_test source/cimppy_test.cpp)
+add_executable(cimppy_test
+    source/cimppy_test.cpp
+    source/simulation_test.cpp
+)
 target_link_libraries(
     cimppy_test PRIVATE
     cimppy::cimppy

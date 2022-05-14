@@ -1,8 +1,7 @@
 #include <string>
+#include <catch2/catch.hpp>
 
 #include "cimppy/cimppy.hpp"
-
-#include <catch2/catch.hpp>
 
 TEST_CASE("Name is cimppy", "[library]")
 {
