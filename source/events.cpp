@@ -7,61 +7,63 @@
 namespace cimppy
 {
 
-Event::Event(Simulation& env)
+event::event(simulation& env)
     : env_(env)
 {
 }
 
-// Event::~Event()
-// {
-// }
-void Event::Trigger(Event triggerEvent, int priority) {
-    if (is_triggered_)
+void event::trigger(const event& trigger_event, int priority) {
+    if (is_triggered_) {
         throw std::runtime_error("Event already triggered!");
-    this->is_ok_ = triggerEvent.is_ok_;
+    }
+    this->is_ok_ = trigger_event.is_ok_;
     // this->
     this->is_triggered_ = true;
-    this->env_.schedule(env_.now, *this, priority);
+    this->env_.schedule(env_.now(), *this, priority);
 }
 
-void Event::Succeed(/*value??,*/ int priority)
+void event::succeed(/*value??,*/ int priority)
 {
-    if (is_triggered_)
+    if (is_triggered_) {
         throw std::runtime_error("Event already triggered!");
+    }
     this->is_ok_ = true;
     // value??
     this->is_triggered_ = true;
-    this->env_.schedule(env_.now, *this, priority);
+    this->env_.schedule(env_.now(), *this, priority);
 }
 
-void Event::Fail(/*value??,*/ int priority){
-    if (is_triggered_)
+void event::fail(/*value??,*/ int priority){
+    if (is_triggered_) {
         throw std::runtime_error("Event already triggered!");
+    }
     this->is_ok_ = false;
     // value??
     this->is_triggered_ = true;
-    this->env_.schedule(env_.now, *this, priority);
+    this->env_.schedule(env_.now(), *this, priority);
 }
 
-void Event::AddCallback(EventCallback_t callback){
-    if (is_processed_)
+void event::add_callback(const event_callback_t& callback){
+    if (is_processed_) {
         throw std::runtime_error("Event already processed!");
+    }
     callbacks_.push_back(callback);
 }
 
-void Event::Process() {
-    if (is_processed_)
+void event::process() {
+    if (is_processed_) {
         throw std::runtime_error("Event already processed!");
+    }
     is_processed_ = true;
     
-    for (auto &&cb : callbacks_) {
-        cb(*this);
+    for (auto &&callback : callbacks_) {
+        callback(*this);
     }
     callbacks_.clear();
 };
 
-void StopEvent::Process() {
-    fmt::print("Stop event processed at {}.\n", env_.now);
+void stop_event::process() {
+    fmt::print("Stop event processed at {}.\n", env_.now());
 }
 
 } // namespace cimppy

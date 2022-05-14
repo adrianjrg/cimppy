@@ -6,50 +6,50 @@
 namespace cimppy
 {
 
-class Event;
-class StopEvent;
+class event;
+class stop_event;
 
 struct scheduled_event
 {
     int time;
     int priority;
     int event_id;
-    Event* event;
+    event* event_ptr;
 };
-class EventComparisson {
+class event_comparisson {
 public:
-    bool operator() (scheduled_event a, scheduled_event b){
-        if (a.time != b.time)
-            return a.time < b.time;
-        else if (a.priority != b.priority)
-            return a.priority < b.priority;
-        else
-            return a.event_id < b.event_id;
+    bool operator() (scheduled_event one, scheduled_event other) {
+        if (one.time != other.time) {
+            return one.time < other.time;
+        }
+        if (one.priority != other.priority) {
+            return one.priority < other.priority;
+        }
+        return one.event_id < other.event_id;
     }
 };
 
-class Simulation
+class simulation
 {
+public:
+    simulation(/* args */) = default;
+
+    [[nodiscard]] int now() const { return now_; }
+
+    void schedule(int time, event& event, int priority = 0);
+
+    stop_event run(int until);
+
+    stop_event run(stop_event& stop_event);
+
+    void step();
+
 private:
     // TODO: convert to chrono instead of int or template?
     int now_ = 0;
     int event_nr_ = 0;
 
-    std::priority_queue<scheduled_event, std::vector<scheduled_event>, EventComparisson> eventQueue_;
-public:
-    Simulation(/* args */);
-    ~Simulation();
-    
-    // "Property"
-    const int& now = now_; 
-
-    void schedule(int time, Event& event, int priority = 0);
-
-    StopEvent run(int until);
-
-    StopEvent run(StopEvent& stop_event);
-
-    void step();
+    std::priority_queue<scheduled_event, std::vector<scheduled_event>, event_comparisson> event_queue_;
 };
 
 } // namespace cimppy

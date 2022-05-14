@@ -8,38 +8,31 @@
 namespace cimppy
 {
 
-Simulation::Simulation(/* args */)
-{
-}
-
-Simulation::~Simulation()
-{
-}
-
-void Simulation::schedule(int time, Event& event, int priority){
-    this->eventQueue_.push(
+void simulation::schedule(int time, event& event, int priority){
+    this->event_queue_.push(
         {
             .time = time,
             .priority = priority,
             .event_id = this->event_nr_++,
-            .event = &event,
+            .event_ptr = &event,
         }
     );
 }
 
-StopEvent Simulation::run(int until){
-    if (until < this->now_)
+stop_event simulation::run(int until){
+    if (until < this->now_) {
         throw std::runtime_error("Simulation must run until a point in the future.");
+    }
     
-    StopEvent stop_event( *this );
+    stop_event stop_event( *this );
     schedule(until, stop_event, 1);
     return run(stop_event);
 }
 
-StopEvent Simulation::run(StopEvent& stop_event){
+stop_event simulation::run(stop_event& stop_event){
     try
     {
-        while (this->eventQueue_.size() != 0)
+        while (!this->event_queue_.empty())
         {
             step();
         }            
@@ -52,16 +45,16 @@ StopEvent Simulation::run(StopEvent& stop_event){
     return stop_event;
 }
 
-void Simulation::step(){
+void simulation::step(){
     // Grab event
-    auto sched_event = eventQueue_.top();
-    eventQueue_.pop();
+    auto sched_event = event_queue_.top();
+    event_queue_.pop();
 
     // Update time
     now_ = sched_event.time;
 
     // Process event
-    sched_event.event->Process();
+    sched_event.event_ptr->process();
 }
 
 } // namespace cimppy
